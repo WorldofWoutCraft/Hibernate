@@ -1,0 +1,4 @@
+name: Hibernate
+main: com.woutwoot.hibernate.Main
+version: 1.0
+authors: [woutwoot]
