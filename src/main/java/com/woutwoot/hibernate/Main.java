@@ -21,19 +21,21 @@ public class Main extends JavaPlugin {
             public void run()
             {
                 if (Bukkit.getOnlinePlayers().size() == 0) {
-                    //Unload all chunks to save RAM.
                     if(firstRun) {
+                        //Unload all chunks to save RAM.
                         for (World w : Bukkit.getWorlds()) {
                             for (Chunk c : w.getLoadedChunks()) {
                                 c.unload(true, false);
                             }
                         }
+                        //Suggest garbage collection to reduce RAM usage.
+                        System.gc();
                     }
                     try
                     {
                         Thread.sleep(1000L);
                         firstRun = false;
-                    } catch (Exception localException){
+                    } catch (Exception e) {
                     }
                 } else {
                     firstRun = true;
