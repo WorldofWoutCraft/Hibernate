@@ -20,7 +20,7 @@ public class Main extends JavaPlugin {
 
             public void run()
             {
-                if (Bukkit.getOnlinePlayers().size() == 0) {
+                if (PlayerCount.getOnline() == 0) {
                     if(firstRun) {
                         //Unload all chunks to save RAM.
                         for (World w : Bukkit.getWorlds()) {
@@ -46,7 +46,10 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable(){
-        Bukkit.getScheduler().cancelTasks(this);
+        try {
+            Bukkit.getScheduler().cancelTasks(this);
+        } catch (Throwable ignored) {
+        }
     }
 
 }
