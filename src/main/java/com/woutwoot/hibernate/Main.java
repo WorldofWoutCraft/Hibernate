@@ -12,16 +12,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
     @Override
-    public void onEnable(){
+    public void onDisable() {
+        try {
+            Bukkit.getScheduler().cancelTasks(this);
+        } catch (Throwable ignored) {
+        }
+    }
 
-        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable()
-        {
+    @Override
+    public void onEnable() {
+
+        Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             boolean firstRun = true;
 
-            public void run()
-            {
-                if (PlayerCount.getOnline() == 0) {
-                    if(firstRun) {
+            public void run() {
+                if (PlayerCount.getOnline() == 0) { //
+                    if (firstRun) {
                         //Unload all chunks to save RAM.
                         for (World w : Bukkit.getWorlds()) {
                             for (Chunk c : w.getLoadedChunks()) {
@@ -31,8 +37,7 @@ public class Main extends JavaPlugin {
                         //Suggest garbage collection to reduce RAM usage.
                         System.gc();
                     }
-                    try
-                    {
+                    try {
                         Thread.sleep(1000L);
                         firstRun = false;
                     } catch (Exception e) {
@@ -42,14 +47,6 @@ public class Main extends JavaPlugin {
                 }
             }
         }, 0L, 1L);
-    }
-
-    @Override
-    public void onDisable(){
-        try {
-            Bukkit.getScheduler().cancelTasks(this);
-        } catch (Throwable ignored) {
-        }
     }
 
 }
